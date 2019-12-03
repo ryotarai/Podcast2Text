@@ -1,3 +1,7 @@
+require 'net/http'
+require 'uri'
+require 'rss'
+
 class PodcastsController < ApplicationController
   before_action :set_podcast, only: [:show, :edit, :update, :destroy]
 
@@ -10,6 +14,10 @@ class PodcastsController < ApplicationController
   # GET /podcasts/1
   # GET /podcasts/1.json
   def show
+    uri = URI.parse(@podcast.rss_url)
+    response = Net::HTTP.get_response(uri)
+    @rss = RSS::Parser.parse(response.body)
+    pp @rss
   end
 
   # GET /podcasts/new

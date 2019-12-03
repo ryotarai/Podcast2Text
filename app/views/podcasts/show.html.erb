@@ -12,3 +12,9 @@
 
 <%= link_to 'Edit', edit_podcast_path(@podcast) %> |
 <%= link_to 'Back', podcasts_path %>
+
+<h2>Items</h2>
+
+<% @rss.items.each do |item| %>
+  <div><%= item.title %></div>
+<% end %>
