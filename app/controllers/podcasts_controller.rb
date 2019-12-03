@@ -17,7 +17,6 @@ class PodcastsController < ApplicationController
     uri = URI.parse(@podcast.rss_url)
     response = Net::HTTP.get_response(uri)
     @rss = RSS::Parser.parse(response.body)
-    pp @rss
   end
 
   # GET /podcasts/new

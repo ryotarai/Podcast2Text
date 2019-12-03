@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Audio url:</strong>
+  <%= @script.audio_url %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @script.title %>
+</p>
+
+<p>
+  <strong>Text:</strong>
+  <%= @script.text %>
+</p>
+
+<%= link_to 'Edit', edit_script_path(@script) %> |
+<%= link_to 'Back', scripts_path %>
