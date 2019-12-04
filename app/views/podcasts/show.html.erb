@@ -11,10 +11,11 @@
 </p>
 
 <%= link_to 'Edit', edit_podcast_path(@podcast) %> |
-<%= link_to 'Back', podcasts_path %>
+<%= link_to 'Back', podcasts_path %> |
+<%= link_to 'Import', import_podcast_path(@podcast), method: :post %>
 
-<h2>Items</h2>
+<h2>Episodes</h2>
 
-<% @rss.items.each do |item| %>
-  <div><%= item.title %></div>
+<% @podcast.episodes.each do |ep| %>
+  <div><%= link_to ep.title, episode_path(ep) %></div>
 <% end %>

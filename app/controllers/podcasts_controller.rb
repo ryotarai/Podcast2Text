@@ -3,7 +3,7 @@ require 'uri'
 require 'rss'
 
 class PodcastsController < ApplicationController
-  before_action :set_podcast, only: [:show, :edit, :update, :destroy]
+  before_action :set_podcast, only: [:show, :edit, :update, :destroy, :import]
 
   # GET /podcasts
   # GET /podcasts.json
@@ -14,9 +14,6 @@ class PodcastsController < ApplicationController
   # GET /podcasts/1
   # GET /podcasts/1.json
   def show
-    uri = URI.parse(@podcast.rss_url)
-    response = Net::HTTP.get_response(uri)
-    @rss = RSS::Parser.parse(response.body)
   end
 
   # GET /podcasts/new
@@ -64,6 +61,24 @@ class PodcastsController < ApplicationController
     @podcast.destroy
     respond_to do |format|
       format.html { redirect_to podcasts_url, notice: 'Podcast was successfully destroyed.' }
+      format.json { head :no_content }
+    end
+  end
+
+  def import
+    uri = URI.parse(@podcast.rss_url)
+    response = Net::HTTP.get_response(uri)
+    @rss = RSS::Parser.parse(response.body)
+
+    @rss.items.each do |item|
+      @podcast.episodes.find_or_create_by(guid: item.guid.content) do |ep|
+        ep.title = item.title
+        ep.enclosure_url = item.enclosure.url
+      end
+    end
+
+    respond_to do |format|
+      format.html { redirect_to podcast_url(@podcast), notice: 'Podcast was successfully imported.' }
       format.json { head :no_content }
     end
   end
