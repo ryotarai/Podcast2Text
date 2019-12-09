@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  episode_recognition_alternative: one
+  word: MyString
+  speaker_tag: 
+  end_time: 
+  start_time: 
+
+two:
+  episode_recognition_alternative: two
+  word: MyString
+  speaker_tag: 
+  end_time: 
+  start_time: 

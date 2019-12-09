@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
+  root 'root#root'
   resources :episodes do
+    member do
+      post 'transcribe'
+    end
   end
   resources :scripts
   resources :podcasts do

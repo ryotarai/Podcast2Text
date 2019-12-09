@@ -1,5 +1,5 @@
 class EpisodesController < ApplicationController
-  before_action :set_episode, only: [:show, :edit, :update, :destroy]
+  before_action :set_episode, only: [:show, :edit, :update, :destroy, :transcribe]
 
   # GET /episodes
   # GET /episodes.json
@@ -57,6 +57,21 @@ class EpisodesController < ApplicationController
     @episode.destroy
     respond_to do |format|
       format.html { redirect_to episodes_url, notice: 'Episode was successfully destroyed.' }
+      format.json { head :no_content }
+    end
+  end
+
+  def transcribe
+    config = Podcast2Text::Application.config
+    TranscribeEpisodeJob.perform_later(
+      episode: @episode,
+      gcp_project_id: config.gcp_project_id,
+      gcp_bucket_name: config.gcp_bucket_name,
+      language_code: 'en-US',
+    )
+
+    respond_to do |format|
+      format.html { redirect_to @episode, notice: 'Transcription has been started.' }
       format.json { head :no_content }
     end
   end

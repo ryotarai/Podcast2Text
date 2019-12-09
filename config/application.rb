@@ -15,5 +15,8 @@ module Podcast2Text
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+
+    config.gcp_project_id = ENV.fetch('GCP_PROJECT_ID')
+    config.gcp_bucket_name = ENV.fetch('GCP_BUCKET_NAME')
   end
 end

@@ -11,4 +11,17 @@
 </p>
 
 <%= link_to 'Edit', edit_episode_path(@episode) %> |
-<%= link_to 'Back', episodes_path %>
+<%= link_to 'Back', episodes_path %> |
+<%= link_to 'Transcribe', transcribe_episode_path(@episode), method: :post %>
+
+<hr>
+
+<% @episode.episode_recognition_results.each do |result| %>
+  <% result.episode_recognition_alternatives.each do |alt| %>
+    <% next if alt.transcript.empty? %>
+    <div style="margin-bottom: 10px; line-height: 150%;">
+      [<%= format_seconds(alt.episode_recognition_words.first.start_time / 1000 / 1000 / 1000) %>]
+      <%= alt.transcript %>
+    </div>
+  <% end %>
+<% end %>
